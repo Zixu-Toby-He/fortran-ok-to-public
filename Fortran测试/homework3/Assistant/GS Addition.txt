@@ -1,0 +1,34 @@
+这是Gauss-Seidel迭代法矩阵方法的格式，若要使用本方法，将对应文件中的!!!!!!!!!!!!!!!!!!!!!!!!!!包裹住的部分替换成该文件执行部分，并将声明放到最前面，同时将迭代公式中右边的x_new(counter(2))修改为x_old(counter(2))
+
+
+	real(kind=8) :: F(lines,lines),support(lines,lines+1)
+
+
+
+	support=0
+	do while(counter(1)<=lines)
+		support(1:lines,counter(1))=D(1:lines,counter(1))-L(1:lines,counter(1))
+		counter(1)=counter(1)+1
+	end do
+
+	counter(1)=1
+	do while(counter(1)<=lines)
+		support(1:lines,10)=0d0
+		support(counter(1),10)=1d0
+		call down_left_solve(support,F(:,counter(1)))
+		counter(1)=counter(1)+1
+	end do
+	counter(1)=1
+	do while(counter(1)<=lines)
+		counter(2)=1
+	do while(counter(2)<=lines)
+			counter(3)=1
+			g_vector(counter(1))=g_vector(counter(1))+F(counter(1),counter(2))*b(counter(2))
+			do while(counter(3)<=lines)
+				G_matrix(counter(1),counter(2))=G_matrix(counter(1),counter(2))+F(counter(1),counter(3))*U(counter(3),counter(2))
+				counter(3)=counter(3)+1
+			end do
+			counter(2)=counter(2)+1
+		end do
+		counter(1)=counter(1)+1
+	end do
